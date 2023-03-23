@@ -17,10 +17,22 @@ final class KhinsiderTests: XCTestCase {
     let album = try await Khinsider.search("kirby").first!
     let formats = try await album.availableFormats
     let tracks = try await album.tracks
+    
+    var str = ""
+    formats.forEach { format in
+      str += format.rawValue
+      str += " "
+    }
+    
     print("[\(album.title)] \(album.url)")
-    print("[\(album.title)] \(tracks.count) tracks.")
+    print("[Album Formats] \(str)")
+    print("[Album] \(tracks.count) tracks.")
     for track in tracks {
       print("\(track.disc) - \(track.track). \(track.title)")
+    }
+    
+    if let gm = try? await album.allSourceLinks(.flac) {
+      print(gm)
     }
   }
 }

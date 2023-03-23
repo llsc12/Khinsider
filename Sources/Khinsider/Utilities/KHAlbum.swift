@@ -81,3 +81,27 @@ extension Khinsider.KHAlbum {
     }
   }
 }
+
+extension Khinsider.KHAlbum {
+  func allSourceLinks(_ format: Khinsider.KHAlbum.Format) async throws -> [URL]? {
+    let dlUrls = await withTaskGroup(of: URL?.self) { group in
+      try? await self.tracks.forEach { track in
+        group.addTask {
+          return await track.getSourceLink(format)
+        }
+      }
+      
+      var collected = [URL]()
+      
+      for await value in group {
+        if let value {
+          collected.append(value)
+        }
+      }
+      
+      return collected
+    }
+    
+    return dlUrls
+  }
+}

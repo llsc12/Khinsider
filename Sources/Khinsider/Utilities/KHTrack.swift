@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftSoup
 
 extension Khinsider.KHAlbum {
   struct KHTrack {
@@ -20,4 +21,24 @@ extension Khinsider.KHAlbum {
 
 extension Khinsider.KHAlbum.KHTrack: Identifiable {
   var id: String { self.url.absoluteString }
+}
+
+
+extension Khinsider.KHAlbum.KHTrack {
+  func getSourceLink(_ format: Khinsider.KHAlbum.Format) async -> URL? {
+    do {
+      let (data, _) = try await URLSession.shared.data(from: url)
+      let htmlStr = String(data: data, encoding: .utf8)!
+      let doc = try Parser.parse(htmlStr, url.absoluteString)
+      
+      let link = try doc.body()?.select("#pageContent > p > a").last(where: { element in
+        try element.attr("href").contains("\(format.rawValue)")
+      })!
+      let urlStr = try link?.absUrl("href")
+      
+      return URL(string: urlStr!)
+    } catch {
+      return nil
+    }
+  }
 }

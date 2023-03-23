@@ -39,7 +39,7 @@ extension Khinsider.KHAlbum: Identifiable {
 
 // adds utility methods to the struct so you can get songs and stuff
 extension Khinsider.KHAlbum {
-  enum Format: String, CaseIterable {
+  public enum Format: String, CaseIterable {
     case mp3 = "mp3"
     case flac = "flac"
   }

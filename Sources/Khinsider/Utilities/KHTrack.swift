@@ -27,16 +27,16 @@ extension Khinsider.KHAlbum.KHTrack: Identifiable {
 extension Khinsider.KHAlbum.KHTrack {
   public func getSourceLink(_ format: Khinsider.KHAlbum.Format) async -> URL? {
     do {
-      let (data, _) = try await URLSession.shared.data(from: url)
-      let htmlStr = String(data: data, encoding: .utf8)!
+      let (data, _) = try await URLSession.shared.data(from: self.url)
+      guard let htmlStr = String(data: data, encoding: .utf8) else { return nil }
       let doc = try Parser.parse(htmlStr, url.absoluteString)
       
       let link = try doc.body()?.select("#pageContent > p > a").last(where: { element in
         try element.attr("href").contains("\(format.rawValue)")
       })!
-      let urlStr = try link?.absUrl("href")
+      guard let urlStr = try link?.absUrl("href") else { return nil }
       
-      return URL(string: urlStr!)
+      return URL(string: urlStr)
     } catch {
       return nil
     }

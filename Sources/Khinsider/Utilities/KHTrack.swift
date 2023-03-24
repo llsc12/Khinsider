@@ -9,7 +9,7 @@ import Foundation
 import SwiftSoup
 
 extension Khinsider.KHAlbum {
-  struct KHTrack {
+  public struct KHTrack {
     let disc: Int
     let track: Int
     let duration: Int
@@ -20,12 +20,12 @@ extension Khinsider.KHAlbum {
 
 
 extension Khinsider.KHAlbum.KHTrack: Identifiable {
-  var id: String { self.url.absoluteString }
+  public var id: String { self.url.absoluteString }
 }
 
 
 extension Khinsider.KHAlbum.KHTrack {
-  func getSourceLink(_ format: Khinsider.KHAlbum.Format) async -> URL? {
+  public func getSourceLink(_ format: Khinsider.KHAlbum.Format) async -> URL? {
     do {
       let (data, _) = try await URLSession.shared.data(from: url)
       let htmlStr = String(data: data, encoding: .utf8)!

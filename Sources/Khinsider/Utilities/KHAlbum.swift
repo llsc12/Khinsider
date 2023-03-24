@@ -50,7 +50,7 @@ extension Khinsider.KHAlbum {
     }
   }
   
-  var availableFormats: [Format] {
+  public var availableFormats: [Format] {
     get async throws {
       var formats = [Format]()
       guard let page = try await self.page else { return formats }
@@ -65,7 +65,7 @@ extension Khinsider.KHAlbum {
     }
   }
   
-  var tracks: [KHTrack] {
+  public var tracks: [KHTrack] {
     get async throws {
       guard let page = try await self.page else { return [] }
       guard let trackTableItems = try? page.select("table#songlist").first()?.select("tr").filter({ egg in !egg.hasAttr("id") }) else { return [] }
@@ -83,7 +83,7 @@ extension Khinsider.KHAlbum {
 }
 
 extension Khinsider.KHAlbum {
-  func allSourceLinks(_ format: Khinsider.KHAlbum.Format) async throws -> [URL]? {
+  public func allSourceLinks(_ format: Khinsider.KHAlbum.Format) async throws -> [URL]? {
     let dlUrls = await withTaskGroup(of: URL?.self) { group in
       try? await self.tracks.forEach { track in
         group.addTask {

@@ -35,4 +35,9 @@ final class KhinsiderTests: XCTestCase {
       print(gm)
     }
   }
+  
+  func testAlbumURL() async throws {
+    let album = try await Khinsider.album(from: URL(string: "https://downloads.khinsider.com/game-soundtracks/album/nintendo-eshop-original-soundtrack-2011-2017")!)
+    print(album)
+  }
 }

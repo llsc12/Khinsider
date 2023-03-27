@@ -10,11 +10,11 @@ import SwiftSoup
 
 extension Khinsider.KHAlbum {
   public struct KHTrack {
-    let disc: Int
-    let track: Int
-    let duration: Int
-    let title: String
-    let url: URL
+    public let disc: Int
+    public let track: Int
+    public let duration: Int
+    public let title: String
+    public let url: URL
   }
 }
 

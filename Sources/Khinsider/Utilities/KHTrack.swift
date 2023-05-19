@@ -34,6 +34,9 @@ extension Khinsider.KHAlbum.KHTrack {
       let link = try doc.body()?.select("#pageContent > p > a").last(where: { element in
         try element.attr("href").contains("\(format.rawValue)")
       })
+			if link == nil {
+				print("[Khinsider] Warning - \(self.track) href not found.")
+			}
       guard let urlStr = try link?.absUrl("href") else { return nil }
       
       return URL(string: urlStr)
